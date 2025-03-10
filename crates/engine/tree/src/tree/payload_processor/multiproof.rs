@@ -488,7 +488,7 @@ where
 
         // Create and spawn the storage proof task
         let (proof_task_sender, proof_task_receiver) = channel();
-        let task_ctx = ProofTaskCtx::new(config.nodes_sorted, config.state_sorted);
+        let task_ctx = ProofTaskCtx::new(config.nodes_sorted.clone(), config.state_sorted.clone());
         let max_concurrency = 32;
         let proof_task = ProofTaskManager::new(
             executor.handle().clone(),
@@ -964,7 +964,7 @@ mod tests {
         let config = create_state_root_config(factory, TrieInput::default());
         let channel = channel();
 
-        MultiProofTask::new(config, executor, channel.0)
+        MultiProofTask::new(config, executor, channel.0).unwrap()
     }
 
     #[test]
